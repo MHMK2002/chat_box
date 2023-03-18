@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.LoginView.as_view(), name='login'),
-    path('signup', views.SignUpView.as_view(), name='signup')
+    path('signup', views.SignUpView.as_view(), name='signup'),
+    path('profile', views.ProfileView.as_view(), name='profile'),
+    path('change-avatar', views.change_avatar, name='change_avatar'),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

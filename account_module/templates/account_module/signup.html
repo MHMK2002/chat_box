@@ -31,7 +31,8 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('/static/images/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-            <form class="login100-form validate-form">
+            <form class="login100-form validate-form" method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
                 <span class="login100-form-title p-b-49">
 						Sign Up
 					</span>
@@ -81,8 +82,8 @@
                 </div>
 
                 <div class="txt1 text-center p-t-54 p-b-20">
-                    <span class="errors">
-                        {{ errors }}
+                    <span class="errors" style="color: red;">
+                        {{ form.errors }}
                     </span>
                 </div>
 

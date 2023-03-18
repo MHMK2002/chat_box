@@ -1,0 +1,70 @@
+{% extends 'account_module/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block header_refrences %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Profile Picture</div>
+                <div class="card-body text-center">
+                    {% thumbnail user.avatar "315x315" as avatar %}
+                        <img class="img-account-profile rounded-circle mb-2"
+                             src="{{ avatar.url }}" alt="">
+                    {% endthumbnail %}
+
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+
+                    <input type="file" name="avatar" style="display: none;">
+                    <div class="btn btn-primary" type="button">
+                        Upload new image
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+                    <form action="{% url 'profile' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputUsername">Username (how your name will appear to other
+                                users on the site)</label>
+                            {{ form.username }}
+                        </div>
+
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputFirstName">First name</label>
+                                {{ form.first_name }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputLastName">Last name</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                            {{ form.email }}
+                        </div>
+
+                        <button class="btn btn-primary" type="button">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
