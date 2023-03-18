@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V4</title>
+	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -66,8 +66,8 @@
 					</div>
 
 					<div class="txt1 text-center p-t-54 p-b-20">
-						<span>
-							Or Sign Up Using
+						<span class="errors">
+							{{ errors }}
 						</span>
 					</div>
 
@@ -76,7 +76,7 @@
 							Or Sign Up Using
 						</span>
 
-						<a href="#" class="txt2">
+						<a href="{% url 'signup' %}" class="txt2">
                             {# TODO: sing up #}
 							Sign Up
 						</a>
