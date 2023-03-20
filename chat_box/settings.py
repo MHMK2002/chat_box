@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'account_module',
     'message_module',
     'group_module',
+    'home_module',
+
     'sorl.thumbnail',
     'django_render_partial',
 ]

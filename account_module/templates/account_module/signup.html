@@ -4,20 +4,16 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Register | Vhato - Responsive Bootstrap 5 Chat App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Vhato - Responsive Chat App Template in HTML. A fully featured HTML chat messenger template in Bootstrap 5" name="description" />
-    <meta name="keywords" content="Vhato chat template, chat, web chat template, chat status, chat template, communication, discussion, group chat, message, messenger template, status"/>
-    <meta content="Themesbrand" name="author" />
+    <title>Sign up</title>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico" id="tabIcon">
+    <link rel="shortcut icon" href="/static/images/favicon.ico" id="tabIcon">
 
     <!-- Bootstrap Css -->
-    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="/static/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="/static/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -31,50 +27,49 @@
                     <div class="d-flex flex-column h-100 px-4 pt-4">
                         <div class="row justify-content-center my-auto">
                             <div class="col-sm-8 col-lg-6 col-xl-6">
-
                                 <div class="py-md-5 py-4">
-
                                     <div class="text-center mb-5">
                                         <h3>Register Account</h3>
                                         <p class="text-muted">Get your free Vhato account now.</p>
                                     </div>
-                                    <form class="needs-validation" novalidate action="index.html">
+                                    <form class="needs-validation" novalidate action="{% url 'signup' %}" method="post">
+                                        {% csrf_token %}
                                         <div class="mb-3">
-                                            <label for="useremail" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="useremail"
-                                                placeholder="Enter email" required>
+                                            <label for="email" class="form-label">Email</label>
+                                            {{ form.email }}
                                             <div class="invalid-feedback">
-                                                Please Enter Email
+                                                {{ form.email.errors }}
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="username"
-                                                placeholder="Enter username" required>
+                                            {{ form.username }}
                                             <div class="invalid-feedback">
-                                                Please Enter Username
+                                                {{ form.username.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Password</label>
+                                            {{ form.password }}
+                                            <div class="invalid-feedback">
+                                                {{ form.password.errors }}
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="userpassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="userpassword"
-                                                placeholder="Enter password" required>
+                                            <label for="confirm_password" class="form-label">Password</label>
+                                            {{ form.confirm_password }}
                                             <div class="invalid-feedback">
-                                                Please Enter Password
+                                                {{ form.confirm_password.errors }}
                                             </div>
-                                        </div>
-
-                                        <div class="mb-4">
-                                            <p class="mb-0">By registering you agree to the Vhato <a href="#"
-                                                    class="text-primary">Terms of Use</a></p>
                                         </div>
 
                                         <div class="mb-3">
                                             <button class="btn btn-primary w-100 waves-effect waves-light"
-                                                type="submit">Register</button>
+                                                type="submit">Sign up</button>
                                         </div>
                                         <div class="mt-4 text-center">
+                                            {# TODO: singup using google #}
                                             <div class="signin-other-title">
                                                 <h5 class="fs-14 mb-4 title">Sign up using</h5>
                                             </div>
@@ -93,49 +88,43 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </form><!-- end form -->
+                                    </form>
 
                                     <div class="mt-5 text-center text-muted">
-                                        <p>Already have an account ? <a href="auth-login.html"
+                                        <p>Already have an account ? <a href="{% url 'login' %}"
                                                 class="fw-medium text-decoration-underline">Login</a></p>
                                     </div>
                                 </div>
-                            </div><!-- end col -->
-                        </div><!-- end row -->
-
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xl-12">
                                 <div class="text-center text-muted p-4">
                                     <p class="mb-0">&copy;
-                                        <script>document.write(new Date().getFullYear())</script> Vhato. Crafted with <i
-                                            class="mdi mdi-heart text-danger"></i> by Themesbrand
+                                        <script>document.write(new Date().getFullYear())</script>
                                     </p>
                                 </div>
-                            </div><!-- end col -->
-                        </div><!-- end row -->
-
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- end col -->
         </div>
-        <!-- end row -->
     </div>
-    <!-- end container-fluid -->
 </div>
 <!-- end auth bg -->
 
 <!-- JAVASCRIPT -->
-<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/libs/simplebar/simplebar.min.js"></script>
-<script src="assets/libs/node-waves/waves.min.js"></script>
+<script src="/static/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/libs/simplebar/simplebar.min.js"></script>
+<script src="/static/libs/node-waves/waves.min.js"></script>
 <!-- validation init -->
-<script src="assets/js/pages/validation.init.js"></script>
+<script src="/static/js/pages/validation.init.js"></script>
 
 <!-- theme-style init -->
-<script src="assets/js/pages/theme-style.init.js"></script>
+<script src="/static/js/pages/theme-style.init.js"></script>
 
-<script src="assets/js/app.js"></script>
+<script src="/static/js/app.js"></script>
 
 </body>
 

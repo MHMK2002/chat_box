@@ -6,29 +6,25 @@ from account_module.models import User
 
 
 class SignUpForm(forms.Form):
-    first_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
-        'class': 'input100',
-        'placeholder': 'Type your first name'
-    }))
-    last_name = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
-        'class': 'input100',
-        'placeholder': 'Type your last name'
-    }))
     username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={
-        'class': 'input100',
-        'placeholder': 'Type your username'
+        'class': 'form-control',
+        'placeholder': 'Type your username',
+        'id': 'username'
     }))
     email = forms.EmailField(widget=forms.EmailInput(attrs={
-        'class': 'input100',
-        'placeholder': 'Type your email'
+        'class': 'form-control',
+        'placeholder': 'Type your email',
+        'id': 'email'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'input100',
-        'placeholder': 'Type your password'
+        'class': 'form-control',
+        'placeholder': 'Type your password',
+        'id': 'password'
     }))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'input100',
-        'placeholder': 'Confirm your password'
+        'class': 'form-control',
+        'placeholder': 'Confirm your password',
+        'id': 'confirm_password'
     }))
 
     def clean_username(self):
@@ -56,13 +52,11 @@ class SignUpForm(forms.Form):
         return confirm_password
 
     def save(self):
-        first_name = self.cleaned_data.get('first_name')
-        last_name = self.cleaned_data.get('last_name')
         username = self.cleaned_data.get('username')
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
 
-        user = User(first_name=first_name, last_name=last_name, username=username, email=email)
+        user = User(username=username, email=email)
         user.set_password(password)
         user.save()
         return user

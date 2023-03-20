@@ -12,7 +12,7 @@ class LoginView(View):
     def get(self, request):
         user = request.user
         if user.is_authenticated:
-            return redirect('profile')
+            return redirect('home')
         return render(request, 'account_module/login.html')
 
     def post(self, request: HttpRequest):
@@ -26,14 +26,16 @@ class LoginView(View):
             }
             return render(request, 'account_module/login.html', context)
         login(request, user)
-        return redirect('profile')
+        return redirect('home')
 
 
 class SignUpView(View):
     def get(self, request: HttpRequest):
         user = request.user
         if user.is_authenticated:
-            return redirect('profile')
+            pass
+            return redirect('home')
+
         form = SignUpForm()
         context = {
             'form': form
@@ -51,35 +53,3 @@ class SignUpView(View):
         login(request, user)
         return redirect('login')
 
-
-class ProfileView(View):
-    def get(self, request: HttpRequest):
-        user: User = request.user
-        if not user.is_authenticated:
-            return redirect('login')
-        form = ProfileForm(id=user.id)
-        form.initial = {
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'username': user.username,
-            'email': user.email
-        }
-        context = {
-            'user': user,
-            'form': form
-        }
-        return render(request, 'account_module/profile.html', context)
-
-    def post(self, request: HttpRequest):
-        pass
-
-
-def change_avatar(request):
-    user: User = request.user
-    if not user.is_authenticated:
-        return redirect('login')
-    if request.method == 'POST':
-        avatar = request.FILES['avatar']
-        user.avatar = avatar
-        user.save()
-    return redirect('profile')

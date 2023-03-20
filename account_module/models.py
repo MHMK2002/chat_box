@@ -4,14 +4,24 @@ from django.conf import settings
 
 
 # Create your models here.
+class UserStatus(models.TextChoices):
+    ACTIVE = 'active'
+    AWAY = 'away'
+    DO_NOT_DISTURB = 'do not disturb'
+
+
 class User(AbstractUser):
     avatar = models.ImageField(default=f'{settings.BASE_DIR}\\media\\user\\user-default.png',
                                upload_to='user',
                                blank=True,
                                null=True)
     about_user = models.TextField()
-    first_name = models.CharField(max_length=30, blank=False)
-    last_name = models.CharField(max_length=150, blank=False)
+    last_seen = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, choices=UserStatus.choices, default=UserStatus.ACTIVE)
+    location = models.CharField(max_length=300, blank=True, null=True)
 
     def __str__(self):
-        return self.username
+        if self.get_full_name() != '':
+            return self.get_full_name()
+        else:
+            return self.username
