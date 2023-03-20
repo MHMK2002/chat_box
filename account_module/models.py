@@ -19,6 +19,8 @@ class User(AbstractUser):
     last_seen = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=UserStatus.choices, default=UserStatus.ACTIVE)
     location = models.CharField(max_length=300, blank=True, null=True)
+    short_description = models.CharField(max_length=300, blank=False, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=False)
 
     def __str__(self):
         if self.get_full_name() != '':

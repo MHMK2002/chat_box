@@ -1,9 +1,9 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views import View
 
-from account_module.forms import SignUpForm, ProfileForm
+from account_module.forms import SignUpForm, ProfileForm, ChangePasswordForm
 from account_module.models import User
 
 
@@ -53,3 +53,35 @@ class SignUpView(View):
         login(request, user)
         return redirect('login')
 
+
+class ChangePasswordView(View):
+    def get(self, request: HttpRequest):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login')
+        form = ChangePasswordForm(user.id)
+        context = {
+            'user': user,
+            'form': form
+        }
+        return render(request, 'account_module/change-password.html', context)
+
+    def post(self, request: HttpRequest):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect('login')
+        form = ChangePasswordForm(id=user.id, data=request.POST)
+        if not form.is_valid():
+            context = {
+                'user': user,
+                'form': form
+            }
+            return render(request, 'account_module/change-password.html', context)
+        user.set_password(form.cleaned_data.get('new_password'))
+        user.save()
+        return redirect('login')
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'account_module/logout.html')

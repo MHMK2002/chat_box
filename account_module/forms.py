@@ -113,9 +113,49 @@ class ProfileForm(forms.Form):
         return user
 
 
-class UserAvatarForm(forms.Form):
-    avatar = forms.ImageField(required=False, max_length=5 * 1024 * 1024
-                              , widget=forms.FileInput(attrs={
-                                'class': 'custom-file-input',
-                                'id': 'inputGroupFile01',
-                            }))
+class ChangePasswordForm(forms.Form):
+    def __init__(self, id, data=None):
+        super().__init__(data)
+        self.id = id
+
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'id': 'old_password',
+        'placeholder': 'Enter your old password',
+    }))
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control pe-5',
+        'id': 'new_password',
+        'placeholder': 'Enter your new password',
+    }))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'id': 'confirm_password',
+        'placeholder': 'Confirm your new password',
+    }))
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get('old_password')
+        user = User.objects.get(id=self.id)
+        if not user.check_password(old_password):
+            raise forms.ValidationError('Old password is incorrect')
+        return old_password
+
+    def clean_confirm_password(self):
+        new_password = self.cleaned_data.get('new_password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+        if new_password != confirm_password:
+            raise forms.ValidationError('Password does not match')
+        regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_$!%*?&])[A-Za-z\d@$_!%*?&]{8,}$'
+        if re.match(regex, new_password) is None:
+            raise forms.ValidationError('Password must contain at least 8 characters,'
+                                        ' 1 uppercase, 1 lowercase,'
+                                        ' 1 number and 1 special character')
+        return confirm_password
+
+    def save(self):
+        new_password = self.cleaned_data.get('new_password')
+        user = User.objects.get(id=self.id)
+        user.set_password(new_password)
+        user.save()
+        return user
