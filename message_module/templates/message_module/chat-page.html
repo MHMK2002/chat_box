@@ -1,0 +1,172 @@
+{% extends 'account_module/base.html' %}
+{% load static %}
+
+{% block header_refrences %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/chat-page.css' %}">
+{% endblock %}
+
+{% block title %}
+    Chat Page
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">
+                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="img-avatar pull-left">
+                <div>Signed in as <br> <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                          data-cfemail="600d4d080f0c0c0117011920070d01090c4e030f0d">[email&#160;protected]</a>
+                </div>
+            </div>
+                <div class="card-body text-center">
+                    {% thumbnail user.avatar "315x315" as avatar %}
+                        <img class="img-account-profile rounded-circle mb-2"
+                             src="{{ avatar.url }}" alt="">
+                    {% endthumbnail %}
+
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+
+                    <input type="file" name="avatar" style="display: none;">
+                    <div class="btn btn-primary" type="button">
+                        Upload new image
+                    </div>
+
+                </div>
+                <div class="list-group lg-alt">
+                    <a class="list-group-item media" href="">
+                        <div class="pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <small class="list-group-item-heading">Davil Parnell</small>
+                            <small class="list-group-item-text c-gray">Fierent fastidii recteque ad pro</small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">Ann Watkinson</div>
+                            <small class="list-group-item-text c-gray">Cum sociis natoque penatibus </small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">Marse Walter</div>
+                            <small class="list-group-item-text c-gray">Suspendisse sapien ligula</small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="lv-avatar pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">Jeremy Robbins</div>
+                            <small class="list-group-item-text c-gray">Phasellus porttitor tellus nec</small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="lv-avatar pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">Reginald Horace</div>
+                            <small class="list-group-item-text c-gray">Quisque consequat arcu eget</small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">Shark Henry</div>
+                            <small class="list-group-item-text c-gray">Nam lobortis odio et leo maximu</small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">Paul Van Dack</div>
+                            <small class="list-group-item-text c-gray">Nam posuere purus sed velit auctor
+                                sodales</small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="lv-avatar pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">James Anderson</div>
+                            <small class="list-group-item-text c-gray">Vivamus imperdiet sagittis quam</small>
+                        </div>
+                    </a>
+                    <a class="list-group-item media" href="">
+                        <div class="lv-avatar pull-left">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="img-avatar">
+                        </div>
+                        <div class="media-body">
+                            <div class="list-group-item-heading">Kane Williams</div>
+                            <small class="list-group-item-text c-gray">Suspendisse justo nulla luctus nec</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+                    <form action="{% url 'profile' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputUsername">Username (how your name will appear to other
+                                users on the site)</label>
+                            {{ form.username }}
+                        </div>
+
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputFirstName">First name</label>
+                                {{ form.first_name }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputLastName">Last name</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                            {{ form.email }}
+                        </div>
+
+                        <button class="btn btn-primary" type="button">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        if ($('#ms-menu-trigger')[0]) {
+            $('body').on('click', '#ms-menu-trigger', function () {
+                $('.ms-menu').toggleClass('toggled');
+            });
+        }
+    });
+</script>
