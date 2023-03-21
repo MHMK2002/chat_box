@@ -14,3 +14,15 @@ class HomeView(View):
         else:
             # TODO: redirect to error page
             pass
+
+
+def header_references(request):
+    return render(request, 'partials/header-references.html')
+
+
+def footer_references(request):
+    return render(request, 'partials/footer-references.html')
+
+
+def switcher(request):
+    return render(request, 'partials/switcher.html')

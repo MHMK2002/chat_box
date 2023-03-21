@@ -68,8 +68,6 @@ class ChangePasswordView(View):
 
     def post(self, request: HttpRequest):
         user = request.user
-        if not user.is_authenticated:
-            return redirect('login')
         form = ChangePasswordForm(id=user.id, data=request.POST)
         if not form.is_valid():
             context = {
@@ -79,6 +77,7 @@ class ChangePasswordView(View):
             return render(request, 'account_module/change-password.html', context)
         user.set_password(form.cleaned_data.get('new_password'))
         user.save()
+        logout(request)
         return redirect('login')
 
 
