@@ -1,21 +1,20 @@
 <!-- Start Settings content -->
 <div>
     <div class="user-profile-img">
-        <img src="assets/images/small/img-4.jpg" class="profile-img profile-foreground-img" style="height: 160px;"
-            alt="">
+        <img src="/images/small/img-4.jpg" class="profile-img profile-foreground-img" style="height: 160px;"
+             alt="">
         <div class="overlay-content">
             <div>
                 <div class="user-chat-nav p-3">
-
                     <div class="d-flex w-100 align-items-center">
                         <div class="flex-grow-1">
                             <h5 class="text-white mb-0">Settings</h5>
                         </div>
                         <div class="flex-shrink-0">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit" data-bs-toggle="tooltip"
-                                data-bs-trigger="hover" data-bs-placement="bottom" title="Change Background">
+                                 data-bs-trigger="hover" data-bs-placement="bottom" title="Change Background">
                                 <input id="profile-foreground-img-file-input" type="file"
-                                    class="profile-foreground-img-file-input">
+                                       class="profile-foreground-img-file-input">
                                 <label for="profile-foreground-img-file-input" class="profile-photo-edit avatar-xs">
                                     <span class="avatar-title rounded-circle bg-light text-body">
                                         <i class="bx bxs-pencil"></i>
@@ -31,10 +30,10 @@
 
     <div class="text-center p-3 p-lg-4 border-bottom pt-2 pt-lg-2 mt-n5 position-relative">
         <div class="mb-3 profile-user">
-            <img src="assets/images/users/avatar-1.jpg"
-                class="rounded-circle avatar-lg img-thumbnail user-profile-image" alt="user-profile-image">
+            <img src="{{ user.profile.avatar.url }}"
+                 class="rounded-circle avatar-lg img-thumbnail user-profile-image" alt="user-profile-image">
             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                <input id="profile-img-file-input" type="file" class="profile-img-file-input">
+                {{ form.avatar }}
                 <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                     <span class="avatar-title rounded-circle bg-light text-body">
                         <i class="bx bxs-camera"></i>
@@ -47,17 +46,20 @@
 
         <div class="dropdown d-inline-block">
             <a class="text-muted dropdown-toggle d-block" href="#" role="button" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="bx bxs-circle text-success fs-10 align-middle"></i> Active <i
+               aria-haspopup="true" aria-expanded="false">
+                <i class="bx bxs-circle text-success fs-10 align-middle"></i>{{ user.profile.status }}<i
                     class="mdi mdi-chevron-down"></i>
             </a>
 
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#"><i class="bx bxs-circle text-success fs-10 me-1 align-middle"></i>
+                <a class="dropdown-item" href="{% url 'set_status' status='active' %}"><i
+                        class="bx bxs-circle text-success fs-10 me-1 align-middle"></i>
                     Active</a>
-                <a class="dropdown-item" href="#"><i class="bx bxs-circle text-warning fs-10 me-1 align-middle"></i>
+                <a class="dropdown-item" href="{% url 'set_status' status='away' %}"><i
+                        class="bx bxs-circle text-warning fs-10 me-1 align-middle"></i>
                     Away</a>
-                <a class="dropdown-item" href="#"><i class="bx bxs-circle text-danger fs-10 me-1 align-middle"></i> Do
+                <a class="dropdown-item" href="{% url 'set_status' status='do not disturb' %}"><i
+                        class="bx bxs-circle text-danger fs-10 me-1 align-middle"></i> Do
                     not disturb</a>
             </div>
         </div>
@@ -72,7 +74,7 @@
             <div class="accordion-item">
                 <div class="accordion-header" id="headerpersonalinfo">
                     <a class="accordion-button fs-14 fw-medium" data-bs-toggle="collapse" href="#personalinfo"
-                        aria-expanded="true" aria-controls="personalinfo">
+                       aria-expanded="true" aria-controls="personalinfo">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-3 avatar-xs">
                                 <div class="avatar-title bg-soft-info text-info rounded">
@@ -84,38 +86,92 @@
                     </a>
                 </div>
                 <div id="personalinfo" class="accordion-collapse collapse show" aria-labelledby="headerpersonalinfo"
-                    data-bs-parent="#settingprofile">
-                    <div class="accordion-body edit-input">
-                        <div class="float-end">
-                            <a href="#" class="badge bg-light text-muted" id="user-profile-edit-btn"> <i
-                                    class="bx bxs-pencil align-middle" id="edit-icon"></i>
-                            </a>
-                        </div>
+                     data-bs-parent="#settingprofile">
+                    <form action="{% url 'tabpane_settings' %}" method="post">
+                        {% csrf_token %}
+                        <div class="accordion-body edit-input">
+                            <div class="float-end">
+                                <button href="" class="badge bg-light text-muted" id="user-profile-edit-btn" onclick="function edit(){
+                                    const editIcon = document.getElementById('edit-icon');
+                                    if (editIcon.classList.contains('bxs-pencil')) {
+                                        editIcon.classList.remove('bxs-pencil');
+                                        editIcon.classList.add('bxs-check');
+                                    } else {
+                                        editIcon.classList.remove('bxs-check');
+                                        editIcon.classList.add('bxs-pencil');
+                                        $.post('profile/tabpane/settings/', {
+                                            username: $('input[name=username]').val(),
+                                            first_name: $('input[name=first_name]').val(),
+                                            last_name: $('input[name=last_name]').val(),
+                                            phone_number: $('input[name=phone_number]').val(),
+                                            email: $('input[name=email]').val(),
+                                            location: $('input[name=location]').val(),
+                                            avatar: $('input[name=avatar]').val(),
+                                            short_about_me: $('input[name=short_about_me]').val(),
+                                            about_me: $('input[name=about_me]').val(),
+                                            csrf_token: $('input[name=csrf_token]').val()
+                                        }, function (data) {
+                                            console.log(data);
+                                        }).then(function () {
+                                            location.reload();
+                                        });
+                                    }
+                               }">
+                                    <i class="bx bxs-pencil align-middle" id="edit-icon"></i>
+                                </button>
+                            </div>
 
-                        <div>
-                            <label for="exampleInputPassword1" class="form-label text-muted fs-13">Name</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="Dushane Daniel"
-                                placeholder="Enter name" disabled>
-                        </div>
+                            <div>
+                                <label for="first_name" class="form-label text-muted fs-13">First name</label>
+                                {{ form.first_name }}
+                                {{ form.first_name.errors }}
+                            </div>
 
-                        <div>
-                            <label for="exampleInputPassword1" class="form-label text-muted fs-13">Email</label>
-                            <input type="email" class="form-control" id="exampleInputPassword1"
-                                value="dashanedaniel@vhato.com" placeholder="Enter email" disabled>
-                        </div>
+                            <div>
+                                <label for="last_name" class="form-label text-muted fs-13">Last name</label>
+                                {{ form.last_name }}
+                                {{ form.last_name.errors }}
+                            </div>
 
-                        <div class="mt-3">
-                            <label for="exampleInputPassword1" class="form-label text-muted fs-13">Phone No</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="+(245) 4577 14523"
-                                placeholder="Enter phone no" disabled>
-                        </div>
+                            <div>
+                                <label for="email" class="form-label text-muted fs-13">Email</label>
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
 
-                        <div class="mt-3">
-                            <label for="exampleInputPassword1" class="form-label text-muted fs-13">Location</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" value="California, USA"
-                                placeholder="Location" disabled>
+                            <div>
+                                <label for="phone" class="form-label text-muted fs-13">Phone number</label>
+                                {{ form.phone_number }}
+                                {{ form.phone_number.errors }}
+                            </div>
+
+                            <div>
+                                <label for="address" class="form-label text-muted fs-13">Location</label>
+                                {{ form.location }}
+                                {{ form.location.errors }}
+                            </div>
+
+                            <div>
+                                <label for="username" class="form-label text-muted fs-13">Username</label>
+                                {{ form.username }}
+                                {{ form.username.errors }}
+                            </div>
+
+                            <div>
+                                <label for="short_about_me" class="form-label text-muted fs-13">Bio</label>
+                                {{ form.short_about_me }}
+                                {{ form.short_about_me.errors }}
+                            </div>
+
+                            <div>
+                                <label for="about_me" class="form-label text-muted fs-13">About me</label>
+                                {{ form.about_me }}
+                                {{ form.about_me.errors }}
+                            </div>
+
+
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- end personal info card -->
@@ -123,7 +179,7 @@
             <div class="accordion-item">
                 <div class="accordion-header" id="privacy1">
                     <a class="accordion-button fs-14 fw-medium collapsed" data-bs-toggle="collapse" href="#privacy"
-                        aria-expanded="false" aria-controls="privacy">
+                       aria-expanded="false" aria-controls="privacy">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-3 avatar-xs">
                                 <div class="avatar-title bg-soft-info text-info rounded">
@@ -135,7 +191,7 @@
                     </a>
                 </div>
                 <div id="privacy" class="accordion-collapse collapse" aria-labelledby="privacy1"
-                    data-bs-parent="#settingprofile">
+                     data-bs-parent="#settingprofile">
                     <div class="accordion-body">
                         <h6 class="mb-3">Who can see my personal info</h6>
                         <ul class="list-unstyled vstack gap-4 mb-0">
@@ -190,7 +246,7 @@
                                     <div class="flex-shrink-0 ms-2">
                                         <div class="form-check form-switch">
                                             <input type="checkbox" class="form-check-input" id="privacy-lastseenSwitch"
-                                                checked>
+                                                   checked>
                                             <label class="form-check-label" for="privacy-lastseenSwitch"></label>
                                         </div>
                                     </div>
@@ -204,7 +260,7 @@
                                     <div class="flex-shrink-0 ms-2">
                                         <div class="form-check form-switch">
                                             <input type="checkbox" class="form-check-input"
-                                                id="privacy-readreceiptSwitch" checked>
+                                                   id="privacy-readreceiptSwitch" checked>
                                             <label class="form-check-label" for="privacy-readreceiptSwitch"></label>
                                         </div>
                                     </div>
@@ -219,7 +275,7 @@
             <div class="accordion-item">
                 <div class="accordion-header" id="headersecurity">
                     <a class="accordion-button fs-14 fw-medium collapsed" data-bs-toggle="collapse"
-                        href="#collapsesecurity" aria-expanded="false" aria-controls="collapsesecurity">
+                       href="#collapsesecurity" aria-expanded="false" aria-controls="collapsesecurity">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-3 avatar-xs">
                                 <div class="avatar-title bg-soft-info text-info rounded">
@@ -231,7 +287,7 @@
                     </a>
                 </div>
                 <div id="collapsesecurity" class="accordion-collapse collapse" aria-labelledby="headersecurity"
-                    data-bs-parent="#settingprofile">
+                     data-bs-parent="#settingprofile">
                     <div class="accordion-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item p-0">
@@ -243,7 +299,7 @@
                                     <div class="flex-shrink-0 ms-2">
                                         <div class="form-check form-switch">
                                             <input type="checkbox" class="form-check-input"
-                                                id="security-notificationswitch">
+                                                   id="security-notificationswitch">
                                             <label class="form-check-label" for="security-notificationswitch"></label>
                                         </div>
                                     </div>
@@ -256,11 +312,10 @@
             <!-- end security card -->
 
 
-
             <div class="accordion-item">
                 <div class="accordion-header" id="headerhelp">
                     <button class="accordion-button fs-14 fw-medium collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapsehelp" aria-expanded="false" aria-controls="collapsehelp">
+                            data-bs-target="#collapsehelp" aria-expanded="false" aria-controls="collapsehelp">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-3 avatar-xs">
                                 <div class="avatar-title bg-soft-info text-info rounded">
@@ -272,7 +327,7 @@
                     </button>
                 </div>
                 <div id="collapsehelp" class="accordion-collapse collapse" aria-labelledby="headerhelp"
-                    data-bs-parent="#settingprofile">
+                     data-bs-parent="#settingprofile">
                     <div class="accordion-body">
                         <ul class="list-unstyled vstack gap-4 mb-0">
                             <li>
