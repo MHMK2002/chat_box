@@ -1,7 +1,7 @@
 <!-- Start Settings content -->
 <div>
     <div class="user-profile-img">
-        <img src="assets/images/small/img-4.jpg" class="profile-img profile-foreground-img" style="height: 160px;"
+        <img src="/static/images/4902908.jpg" class="profile-img profile-foreground-img" style="height: 160px;"
             alt="">
         <div class="overlay-content">
             <div>
@@ -31,8 +31,9 @@
 
     <div class="text-center p-3 p-lg-4 border-bottom pt-2 pt-lg-2 mt-n5 position-relative">
         <div class="mb-3 profile-user">
-            <img src="assets/images/users/avatar-1.jpg"
-                class="rounded-circle avatar-lg img-thumbnail user-profile-image" alt="user-profile-image">
+            {# TODO: save avatar #}
+            <img id="user_avatar" type="file" src="{{ user.profile.avatar.url }}"
+                class="rounded-circle avatar-lg img-thumbnail user-profile-image" alt="user-profile-image"/>
             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                 <input id="profile-img-file-input" type="file" class="profile-img-file-input">
                 <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
@@ -85,6 +86,7 @@
                 </div>
                 <div id="personalinfo" class="accordion-collapse collapse show" aria-labelledby="headerpersonalinfo"
                     data-bs-parent="#settingprofile">
+                    {# TODO: save personal info #}
                     <div class="accordion-body edit-input">
                         <div class="float-end">
                             <a href="#" class="badge bg-light text-muted" id="user-profile-edit-btn"> <i

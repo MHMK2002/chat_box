@@ -50,7 +50,6 @@ class SignUpView(View):
             }
             return render(request, 'account_module/signup.html', context)
         user = form.save()
-        login(request, user)
         return redirect('login')
 
 

@@ -11,15 +11,16 @@ class UserStatus(models.TextChoices):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     avatar = models.ImageField(default=f'{settings.BASE_DIR}\\media\\user\\user-default.png',
                                upload_to='user/',
                                blank=True,
                                null=True)
     last_seen = models.BooleanField(default=False)
-    about_user = models.TextField()
-    short_about_user = models.CharField(max_length=300, blank=False, null=True)
+    about_me = models.TextField()
+    short_about_me = models.CharField(max_length=300, blank=False, null=True)
     location = models.CharField(max_length=300, blank=True, null=True)
     status = models.CharField(max_length=20, choices=UserStatus.choices, default=UserStatus.ACTIVE)
     contacts = models.ManyToManyField(User, related_name='contacts', blank=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
     # TODO: add field for media and attachments files

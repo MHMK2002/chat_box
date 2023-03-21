@@ -3,6 +3,7 @@ import re
 from django import forms
 
 from account_module.models import User
+from profile_module.models import UserProfile
 
 
 class SignUpForm(forms.Form):
@@ -59,6 +60,8 @@ class SignUpForm(forms.Form):
         user = User(username=username, email=email)
         user.set_password(password)
         user.save()
+        profile = UserProfile(user=user)
+        profile.save()
         return user
 
 
