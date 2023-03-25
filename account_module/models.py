@@ -14,3 +14,7 @@ class User(AbstractUser):
             return self.get_full_name()
         else:
             return self.username
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.profile.save()

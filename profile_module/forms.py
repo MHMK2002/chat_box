@@ -3,52 +3,54 @@ from django import forms
 
 
 class PersonalInfoForm(forms.Form):
-    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+    username = forms.CharField(max_length=100, label='username', widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Username',
-        'id': 'username'
+        'id': 'username',
+        'disabled': 'disabled'
     }))
-    first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+    first_name = forms.CharField(max_length=100, required=False, label='first_name', widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'First Name',
-        'id': 'first_name'
+        'id': 'first_name',
+        'disabled': 'disabled'
     }))
-    last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+    last_name = forms.CharField(max_length=100, required=False, label='last_name', widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Last Name',
-        'id': 'last_name'
+        'id': 'last_name',
+        'disabled': 'disabled'
     }))
-    phone_number = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+    phone_number = forms.CharField(max_length=100, required=False, label='phone_number', widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Phone Number',
-        'id': 'phone_number'
+        'id': 'phone_number',
+        'disabled': 'disabled'
     }))
-    location = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+    location = forms.CharField(max_length=100, required=False, label='location', widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Location',
-        'id': 'location'
+        'id': 'location',
+        'disabled': 'disabled'
     }))
-    status = forms.ChoiceField(choices=[('active', 'Active'), ('away', 'Away'),
+    status = forms.ChoiceField(required=False, choices=[('active', 'Active'), ('away', 'Away'),
                                         ('do not disturb', 'Do not disturb')],
                                widget=forms.Select(attrs={
                                    'class': 'form-control',
-                                   'id': 'status'
+                                   'id': 'status',
+                                   'disabled': 'disabled'
                                }))
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={
-        'class': 'profile-img-file-input',
-        'id': 'profile-img-file-input',
-        'type': 'file',
-    }))
-
-    short_about_me = forms.CharField(max_length=300, widget=forms.Textarea(attrs={
+    short_about_me = forms.CharField(max_length=300, required=False, label='short_about_me', widget=forms.Textarea(attrs={
         'class': 'form-control',
         'placeholder': 'Short about me',
-        'id': 'short_about_me'
+        'id': 'short_about_me',
+        'disabled': 'disabled'
     }))
-    about_me = forms.CharField(max_length=300, widget=forms.Textarea(attrs={
+    about_me = forms.CharField(max_length=300, required=False, label='about_me', widget=forms.Textarea(attrs={
         'class': 'form-control',
         'placeholder': 'About me',
-        'id': 'about_me'
+        'id': 'about_me',
+        'disabled': 'disabled'
     }))
 
     def __init__(self, id, data=None):
@@ -61,13 +63,12 @@ class PersonalInfoForm(forms.Form):
         self.fields['phone_number'].initial = user.profile.phone_number
         self.fields['location'].initial = user.profile.location
         self.fields['status'].initial = user.profile.status
-        self.fields['avatar'].initial = user.profile.avatar
         self.fields['short_about_me'].initial = user.profile.short_about_me
         self.fields['about_me'].initial = user.profile.about_me
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        user = User.objects.filter(username=username).exclude(id=self.id)
+        user = User.objects.filter(username=username).exclude(id=self.id).first()
         if user is None:
             return username
         raise forms.ValidationError('Username already exists')
@@ -80,8 +81,7 @@ class PersonalInfoForm(forms.Form):
         user.profile.phone_number = self.cleaned_data['phone_number']
         user.profile.location = self.cleaned_data['location']
         user.profile.status = self.cleaned_data['status']
-        user.profile.avatar = self.cleaned_data['avatar']
         user.profile.short_about_me = self.cleaned_data['short_about_me']
         user.profile.about_me = self.cleaned_data['about_me']
-        user.profile.save()
+        user.save()
         return user
