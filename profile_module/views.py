@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import TemplateView
 
 from account_module.models import User
 from profile_module.forms import PersonalInfoForm
@@ -56,22 +57,23 @@ class TabpaneSettings(View):
         return HttpResponse(status=400, content='Personal info is not valid')
 
 
-class TabpaneContacts(View):
-    def get(self, request):
-        user = request.user
+class TabpaneContacts(TemplateView):
+    template_name = 'profile_module/contacts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user: User = self.request.user
         if not user.is_authenticated:
             raise Http404('User is not authenticated')
-        alphabet = [chr(i) for i in range(65, 91)]
+        user_contacts = user.profile.contacts.all()
+        alphabet = 'abcdefghijklmnopqrstuvwxyz'
         contacts = {}
-        for alpha in alphabet:
-            users = User.objects.filter(username__startswith=alpha)
-            if users.exists():
-                contacts[alpha] = users
-        context = {
-            'user': user,
-            'contacts': contacts,
-        }
-        return render(request, 'partials/tabpanes/tabpane-contacts.html', context)
+        for letter in alphabet:
+            temp = user_contacts.filter(username__istartswith=letter).all()
+            if len(temp) > 0:
+                contacts[letter] = temp
+        context['contacts_list'] = contacts
+        return context
 
 
 def save_avatar(request):
