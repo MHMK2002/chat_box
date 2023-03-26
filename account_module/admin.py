@@ -14,7 +14,7 @@ class UserAdmin(admin.ModelAdmin):
     def save_form(self, request, form, change):
         user = super().save_form(request, form, change)
         if not user.profile:
-            profile = UserProfile()
+            profile = UserProfile(see_user=self)
             profile.save()
             user.profile = profile
         user.set_password(form.cleaned_data['password'])

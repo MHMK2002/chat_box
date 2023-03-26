@@ -1,24 +1,23 @@
 function saveAvatar(token) {
-    const avatar = document.getElementById('user_avatar').src;
-    const data = {
-        'avatar': avatar,
-        'csrfmiddlewaretoken': token
-    }
-    console.log(data);
-    $.ajax({
-        url: "/profile/save_avatar",
-        type: "POST",
-        data: data,
-        success: function (response) {
-            console.log(response);
+    const avatar = $('#profile-img-file-input')[0].files[0];
+    const formData = new FormData();
+    formData.append('avatar', avatar);
+    formData.append('csrfmiddlewaretoken', token);
+    $.ajax(
+        {
+            url: '/profile/update/avatar',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
         }
-    });
+    ).done();
 }
 
-function changeInformation(token){
+function changeInformation(token) {
     console.log('changeInformation')
     const element = document.getElementById('edit-icon');
-    if (element.classList.contains('bxs-save')){
+    if (element.classList.contains('bxs-save')) {
         const data = {
             'first_name': document.getElementById('first_name').value,
             'last_name': document.getElementById('last_name').value,
@@ -35,7 +34,7 @@ function changeInformation(token){
                 type: 'POST',
                 data: data,
             }
-        ).then(res=>{
+        ).then(res => {
             $('#personal-form').html(res);
         })
     }

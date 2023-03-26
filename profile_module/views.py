@@ -79,20 +79,15 @@ class TabpaneContacts(TemplateView):
 def save_avatar(request):
     user = request.user
     if user.is_authenticated:
-        if request.POST.get('avatar') is None:
+        avatar = request.FILES.get('avatar')
+        if avatar is None:
+            print(request.POST)
             print(request.POST.get('avatar'))
             raise Http404('Avatar is not provided')
-        avatar = request.POST.get('avatar')
-        # convert base64 to image
-        file = base64.b64decode(avatar)
-        extension = imghdr.what(None, file)
-        file_name = f'{user.username}.{extension}'
-        # save image to media folder
-        with open(os.path.join('media', 'user', file_name), 'wb') as f:
-            f.write(file)
-        user.profile.avatar = str(settings.MEDIA_ROOT) + f'\\user\\{file_name}'
-        user.profile.save()
-        return HttpResponse('Avatar saved')
+        user.profile.avatar = avatar
+        user.save()
+
+        return HttpResponse(status=200, content='Avatar saved successfully')
     raise Http404('User is not authenticated')
 
 

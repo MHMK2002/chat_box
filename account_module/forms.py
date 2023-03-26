@@ -60,7 +60,7 @@ class SignUpForm(forms.Form):
         user = User(username=username, email=email)
         user.set_password(password)
         user.save()
-        profile = UserProfile(user=user)
+        profile = UserProfile(see_user=user)
         profile.save()
         return user
 
