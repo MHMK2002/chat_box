@@ -57,11 +57,11 @@ class SignUpForm(forms.Form):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
 
-        user = User(username=username, email=email)
+        profile = UserProfile()
+        profile.save()
+        user = User(username=username, email=email, is_active=False, profile=profile)
         user.set_password(password)
         user.save()
-        profile = UserProfile(see_user=user)
-        profile.save()
         return user
 
 

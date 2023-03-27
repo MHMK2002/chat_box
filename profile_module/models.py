@@ -43,7 +43,7 @@ class UserProfile(models.Model):
                                upload_to='user/',
                                blank=True,
                                null=True)
-    last_seen = models.BooleanField(choices=UserPrivacy.choices, default=UserPrivacy.EVERYONE)
+    last_seen = models.CharField(choices=UserPrivacy.choices, default=UserPrivacy.EVERYONE, max_length=20)
     about_me = models.TextField(blank=True, null=True)
     short_about_me = models.CharField(max_length=300, blank=True, null=True)
     location = models.CharField(max_length=300, blank=True, null=True)

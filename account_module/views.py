@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.contrib.auth import login, logout
+from django.core.mail import send_mail
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views import View
@@ -10,6 +12,8 @@ from account_module.models import User
 # Create your views here.
 class LoginView(View):
     def get(self, request):
+        send_mail(subject='Activate your account', message='Activate your account',
+                  from_email=settings.EMAIL_BACKEND, recipient_list=['khanihasan1381@gmail.com'])
         user = request.user
         if user.is_authenticated:
             return redirect('home')
@@ -50,6 +54,8 @@ class SignUpView(View):
             }
             return render(request, 'account_module/signup.html', context)
         user = form.save()
+        send_mail(subject='Activate your account', message='Activate your account',
+                  from_email=settings.EMAIL_BACKEND, recipient_list=[user.email])
         return redirect('login')
 
 

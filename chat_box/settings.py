@@ -138,3 +138,10 @@ AUTH_USER_MODEL = 'account_module.User'
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
 )
+
+EMAIL_HOST_USER = 'mhmk.chatbox@gmail.com'
+EMAIL_HOST_PASSWORD = 'jprlobioiawzvofc'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
