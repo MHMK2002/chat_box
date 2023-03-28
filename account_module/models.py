@@ -11,6 +11,7 @@ from profile_module.models import UserProfile
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='user', blank=True)
+    email_activation_code = models.CharField(max_length=100, blank=False, null=False)
 
     def __str__(self):
         if self.get_full_name() != '':
@@ -21,3 +22,7 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.profile.save()
+
+    def set_email_activation_code(self):
+        self.email_activation_code = User.objects.make_random_password(length=100)
+        self.save()

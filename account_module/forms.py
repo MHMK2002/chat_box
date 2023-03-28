@@ -61,6 +61,7 @@ class SignUpForm(forms.Form):
         profile.save()
         user = User(username=username, email=email, is_active=False, profile=profile)
         user.set_password(password)
+        user.set_email_activation_code()
         user.save()
         return user
 
@@ -162,3 +163,24 @@ class ChangePasswordForm(forms.Form):
         user.set_password(new_password)
         user.save()
         return user
+
+
+class ResetPasswordForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+    }))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+    }))
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            raise forms.ValidationError('Password does not match')
+        regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_$!%*?&])[A-Za-z\d@$_!%*?&]{8,}$'
+        if re.match(regex, password) is None:
+            raise forms.ValidationError('Password must contain at least 8 characters,'
+                                        ' 1 uppercase, 1 lowercase,'
+                                        ' 1 number and 1 special character')
+        return confirm_password
