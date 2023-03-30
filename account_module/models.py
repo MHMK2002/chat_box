@@ -10,7 +10,7 @@ from profile_module.models import UserProfile
 
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
-    profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='user', blank=True)
+    profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, blank=True)
     email_activation_code = models.CharField(max_length=100, blank=False, null=False)
 
     def __str__(self):

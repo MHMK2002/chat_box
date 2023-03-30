@@ -37,12 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account_module',
     'message_module',
-    'group_module',
+    'channel_module',
     'home_module',
     'profile_module',
     'conversation_module',
+    'private_chat_module',
 
-    'polymorphic',
     'sorl.thumbnail',
     'django_render_partial',
 ]

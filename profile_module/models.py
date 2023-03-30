@@ -53,7 +53,7 @@ class UserProfile(models.Model):
 
     see_avatar = models.CharField(choices=UserPrivacy.choices, default=UserPrivacy.EVERYONE, max_length=20)
     see_status = models.CharField(choices=UserPrivacy.choices, default=UserPrivacy.EVERYONE, max_length=20)
-    see_groups = models.CharField(choices=UserPrivacy.choices, default=UserPrivacy.EVERYONE, max_length=20)
+    see_channels = models.CharField(choices=UserPrivacy.choices, default=UserPrivacy.EVERYONE, max_length=20)
 
     def __str__(self):
         return f'{self.user.username} profile'
