@@ -22,5 +22,11 @@ class Channel(models.Model):
         self.conversation = Conversation.objects.create()
         super().save(force_insert, force_update, using, update_fields)
 
+    def get_avatar(self):
+        return self.avatar.url
+
+    def get_name(self):
+        return self.name
+
 
 

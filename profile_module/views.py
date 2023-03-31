@@ -7,6 +7,8 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from account_module.models import User
+from conversation_module.models import Conversation
+from private_chat_module.models import PrivateChat
 from profile_module.forms import PersonalInfoForm
 import base64
 
@@ -144,3 +146,42 @@ class PersonalInfo(View):
         if form.is_valid():
             form.save()
         return render(request, 'profile_module/personal-form.html', {'form': form})
+
+
+class ChatPageView(TemplateView):
+    template_name = 'profile_module/chat-partials/chat-page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user: User = self.request.user
+        if not user.is_authenticated:
+            raise Http404('User is not authenticated')
+        context['user'] = user
+
+        conversation = Conversation.objects.get(id=self.kwargs['conversation_id'])
+        context['conversation'] = conversation
+
+        name = ''
+        avatar = ''
+        about = ''
+        status = ''
+
+        if PrivateChat.objects.filter(conversation=conversation).exists():
+            chat = PrivateChat.objects.get(conversation=conversation)
+            name = chat.get_name(self, user)
+            avatar = chat.get_avatar(self, user)
+            about = chat.get_about(self, user)
+            status = chat.get_status(self, user)
+        else:
+            chat = conversation.channel
+            name = chat.name
+            avatar = chat.avatar
+            about = chat.about
+            status = f'{chat.members.all().count()} Members'
+
+        context['chat_name'] = name
+        context['chat_avatar'] = avatar
+        context['chat_about'] = about
+        context['chat_status'] = status
+
+        return context
