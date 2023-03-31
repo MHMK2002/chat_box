@@ -15,3 +15,16 @@ class PrivateChat(models.Model):
 
     def __str__(self):
         return f'{self.members.all()[0]} - {self.members.all()[1]}'
+
+    def get_avatar(self, user: User):
+        for member in self.members.all():
+            if member != user:
+                return member.profile.avatar.url
+
+    def get_name(self, user: User):
+        for member in self.members.all():
+            if member != user:
+                return member.profile.name
+
+    def last_message(self):
+        return self.conversation.messagemodel_set.all().order_by('-created_at')[:0]

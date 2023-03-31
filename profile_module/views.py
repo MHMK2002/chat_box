@@ -13,7 +13,7 @@ import base64
 
 # Create your views here.
 def set_status(request, status):
-    user = request.user
+    user: User = request.user
     if user.is_authenticated:
         status = status.lower()
         if status == 'active' or status == 'away' or status == 'do not disturb':
@@ -23,7 +23,7 @@ def set_status(request, status):
     raise Http404('User is not authenticated')
 
 
-class TabpaneProfile(View):
+class Profile(View):
     def get(self, request: HttpRequest):
         uesr: User = request.user
         if not uesr.is_authenticated:
@@ -31,13 +31,13 @@ class TabpaneProfile(View):
         context = {
             'user': uesr,
         }
-        return render(request, 'partials/tabpanes/tabpane-profile.html', context)
+        return render(request, 'profile_module/profile.html', context)
 
     def post(self, request: HttpRequest):
         pass
 
 
-class TabpaneSettings(View):
+class Settings(View):
     def get(self, request: HttpRequest):
         user: User = request.user
         if not user.is_authenticated:
@@ -47,7 +47,7 @@ class TabpaneSettings(View):
             'user': user,
             'form': form,
         }
-        return render(request, 'partials/tabpanes/tabpane-settings.html', context)
+        return render(request, 'profile_module/settings.html', context)
 
     def post(self, request: HttpRequest):
         form = PersonalInfoForm(request.user.id, request.POST)
@@ -57,7 +57,7 @@ class TabpaneSettings(View):
         return HttpResponse(status=400, content='Personal info is not valid')
 
 
-class TabpaneContacts(TemplateView):
+class Contacts(TemplateView):
     template_name = 'profile_module/contacts.html'
 
     def get_context_data(self, **kwargs):
@@ -76,8 +76,34 @@ class TabpaneContacts(TemplateView):
         return context
 
 
+class Calls(View):
+    def get(self, request: HttpRequest):
+        return render(request, 'profile_module/calls.html')
+
+    def post(self, request: HttpRequest):
+        pass
+
+
+class Chats(View):
+    def get(self, request: HttpRequest):
+        user: User = request.user
+        if not user.is_authenticated:
+            raise Http404('User is not authenticated')
+        channels = user.channel_set.all()
+        private_chats = user.privatechat_set.all()
+        context = {
+            'user': user,
+            'channels': channels,
+            'private_chats': private_chats,
+        }
+        return render(request, 'profile_module/chats.html', context)
+
+    def post(self, request: HttpRequest):
+        pass
+
+
 def save_avatar(request):
-    user = request.user
+    user: User = request.user
     if user.is_authenticated:
         avatar = request.FILES.get('avatar')
         if avatar is None:

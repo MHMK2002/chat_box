@@ -17,48 +17,18 @@ class HomeView(View):
 
 
 def header_references(request):
-    return render(request, 'partials/header-references.html')
+    return render(request, 'home_module/partials/header-references.html')
 
 
 def footer_references(request):
-    return render(request, 'partials/footer-references.html')
+    return render(request, 'home_module/partials/footer-references.html')
 
 
 def switcher(request):
-    return render(request, 'partials/switcher.html')
+    return render(request, 'home_module/partials/switcher.html')
 
 
 def sidebar(request):
-    return render(request, 'partials/sidebar-menu.html')
+    return render(request, 'home_module/partials/sidebar-menu.html')
 
 
-class TabpaneBookmark(View):
-    def get(self, request: HttpRequest):
-        return render(request, 'partials/tabpanes/tabpane-bookmark.html')
-
-    def post(self, request: HttpRequest):
-        pass
-
-
-class TabpaneCalls(View):
-    def get(self, request: HttpRequest):
-        return render(request, 'partials/tabpanes/tabpane-calls.html')
-
-    def post(self, request: HttpRequest):
-        pass
-
-
-class TabpaneChats(View):
-    def get(self, request: HttpRequest):
-        return render(request, 'partials/tabpanes/tabpane-chats.html')
-
-    def post(self, request: HttpRequest):
-        pass
-
-
-class TabpaneContacts(View):
-    def get(self, request: HttpRequest):
-        return render(request, 'partials/tabpanes/tabpane-contacts.html')
-
-    def post(self, request: HttpRequest):
-        pass

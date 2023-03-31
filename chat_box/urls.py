@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns =[
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('account_module.urls')),
     path('home/', include('home_module.urls')),

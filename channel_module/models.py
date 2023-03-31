@@ -22,3 +22,5 @@ class Channel(models.Model):
         self.conversation = Conversation.objects.create()
         super().save(force_insert, force_update, using, update_fields)
 
+
+

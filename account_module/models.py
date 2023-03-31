@@ -26,3 +26,13 @@ class User(AbstractUser):
     def set_email_activation_code(self):
         self.email_activation_code = User.objects.make_random_password(length=100)
         self.save()
+
+    def unread_messages(self) -> int:
+        count = 0
+        for chat in self.privatechat_set.all():
+            count += chat.conversation.unread_messages()
+
+        for chat in self.channel_set.all():
+            count += chat.conversation.unread_messages()
+
+        return count
