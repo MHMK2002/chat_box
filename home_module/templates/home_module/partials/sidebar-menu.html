@@ -32,7 +32,11 @@
             <li class="nav-item">
                 <a class="nav-link active" id="pills-chat-tab" data-bs-toggle="pill" href="#pills-chat" role="tab">
                     <i class="ri-discuss-line"></i>
-                    <span class="badge bg-danger fs-11 rounded-pill sidenav-item-badge">9</span>
+                    {% if request.user.unread_messages > 0 %}
+                        <span class="badge bg-danger fs-11 rounded-pill sidenav-item-badge">
+                        {{ request.user.unread_messages }}
+                    </span>
+                    {% endif %}
                 </a>
             </li>
             <li class="nav-item">

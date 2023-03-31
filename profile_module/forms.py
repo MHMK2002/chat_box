@@ -33,13 +33,6 @@ class PersonalInfoForm(forms.Form):
         'id': 'location',
         'disabled': 'disabled'
     }))
-    status = forms.ChoiceField(required=False, choices=[('active', 'Active'), ('away', 'Away'),
-                                        ('do not disturb', 'Do not disturb')],
-                               widget=forms.Select(attrs={
-                                   'class': 'form-control',
-                                   'id': 'status',
-                                   'disabled': 'disabled'
-                               }))
     short_about_me = forms.CharField(max_length=300, required=False, label='short_about_me', widget=forms.Textarea(attrs={
         'class': 'form-control',
         'placeholder': 'Short about me',
@@ -62,7 +55,6 @@ class PersonalInfoForm(forms.Form):
         self.fields['last_name'].initial = user.last_name
         self.fields['phone_number'].initial = user.profile.phone_number
         self.fields['location'].initial = user.profile.location
-        self.fields['status'].initial = user.profile.status
         self.fields['short_about_me'].initial = user.profile.short_about_me
         self.fields['about_me'].initial = user.profile.about_me
 
@@ -80,7 +72,6 @@ class PersonalInfoForm(forms.Form):
         user.last_name = self.cleaned_data['last_name']
         user.profile.phone_number = self.cleaned_data['phone_number']
         user.profile.location = self.cleaned_data['location']
-        user.profile.status = self.cleaned_data['status']
         user.profile.short_about_me = self.cleaned_data['short_about_me']
         user.profile.about_me = self.cleaned_data['about_me']
         user.save()

@@ -50,17 +50,26 @@
         <div class="dropdown d-inline-block">
             <a class="text-muted dropdown-toggle d-block" href="#" role="button" data-bs-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                <i class="bx bxs-circle text-success fs-10 align-middle"></i> Active <i
-                    class="mdi mdi-chevron-down"></i>
+            {% if user.profile.status == 'active' %}
+                <i class="bx bxs-circle text-success fs-10 align-middle"></i>
+            {% elif user.profile.status == 'away' %}
+                <i class="bx bxs-circle text-warning fs-10 align-middle"></i>
+            {% else %}
+                <i class="bx bxs-circle text-danger fs-10 align-middle"></i>
+            {% endif %}
+                    <i id="status">{{ user.profile.status }}</i>
+                <i class="mdi mdi-chevron-down"></i>
             </a>
 
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#"><i class="bx bxs-circle text-success fs-10 me-1 align-middle"></i>
+                <a class="dropdown-item" onclick="setStatus('active', '{{ csrf_token }}')"><i
+                        class="bx bxs-circle text-success fs-10 me-1 align-middle"></i>
                     Active</a>
-                <a class="dropdown-item" href="#"><i class="bx bxs-circle text-warning fs-10 me-1 align-middle"></i>
-                    Away</a>
-                <a class="dropdown-item" href="#"><i class="bx bxs-circle text-danger fs-10 me-1 align-middle"></i> Do
-                    not disturb</a>
+                <a class="dropdown-item" onclick="setStatus('active', '{{ csrf_token }}')"><i class=" bx bxs-circle text-warning fs-10 me-1
+                   align-middle"></i>
+                Away</a>
+                <a class="dropdown-item" onclick="setStatus('active', '{{ csrf_token }}')"><i class=" bx bxs-circle text-danger fs-10 me-1
+                   align-middle"></i> Do not disturb</a>
             </div>
         </div>
 

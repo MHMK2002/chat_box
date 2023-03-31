@@ -12,17 +12,17 @@
                         <div class="flex-shrink-0">
                             <div class="dropdown">
                                 <button class="btn nav-btn text-white dropdown-toggle" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class='bx bx-dots-vertical-rounded'></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                        href="#">Info <i class="bx bx-info-circle ms-2 text-muted"></i></a>
+                                       href="#">Info <i class="bx bx-info-circle ms-2 text-muted"></i></a>
                                     <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                        href="#">Setting <i class="bx bx-cog text-muted ms-2"></i></a>
+                                       href="#">Setting <i class="bx bx-cog text-muted ms-2"></i></a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                        href="#">Help <i class="bx bx-help-circle ms-2 text-muted"></i></a>
+                                       href="#">Help <i class="bx bx-help-circle ms-2 text-muted"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -100,191 +100,84 @@
                 <div class="flex-grow-1">
                     <h5 class="fs-12 text-muted text-uppercase mb-0">Media</h5>
                 </div>
+                {# TODO: show all media #}
                 <div class="flex-shrink-0">
                     <a href="#" class="fw-medium fs-12 d-block">Show all</a>
                 </div>
             </div>
             <div class="profile-media-img">
-                <div class="media-img-list">
-                    <a href="#">
-                        <img src="/static/images/small/img-1.jpg" alt="media img" class="img-fluid">
-                    </a>
-                </div>
-                <div class="media-img-list">
-                    <a href="#">
-                        <img src="/static/images/small/img-2.jpg" alt="media img" class="img-fluid">
-                    </a>
-                </div>
-                <div class="media-img-list">
-                    <a href="#">
-                        <img src="/static/images/small/img-4.jpg" alt="media img" class="img-fluid">
-                        <div class="bg-overlay">+ 15</div>
-                    </a>
-                </div>
+                {% for media in user.profile.get_media %}
+                    <div class="media-img-list">
+                        {# TODO: show media #}
+                        <a href="#">
+                            {% if media.type == 'image' %}
+                                <img src="/static/images/small/img-1.jpg" alt="media img" class="img-fluid">
+                            {% elif media.type == 'video' %}
+                                <video width="320" height="240" autoplay>
+                                    <source src="{{ media.file }}" type="video">
+                                </video>
+                            {% endif %}
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
         <div>
-            {# TODO: Attached files #}
             <div class="d-flex align-items-center mb-3">
                 <div class="flex-grow-1">
                     <h5 class="fs-12 text-muted text-uppercase mb-0">Attached Files</h5>
                 </div>
+                {# TODO: show all #}
                 <div class="flex-shrink-0">
                     <a href="#" class="fw-medium fs-12 d-block">Show all</a>
                 </div>
             </div>
             <div>
-                <div class="card p-2 border border-dashed mb-2">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 ms-1 me-3">
-                            <img src="/static/images/pdf-file.png" alt="" class="avatar-xs">
-                        </div>
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="fs-14 text-truncate mb-1">design-phase-1-approved.pdf</h5>
-                            <p class="text-muted fs-13 mb-0">12.5 MB</p>
-                        </div>
+                {% for attachment in user.profile.get_attachments %}
+                    <div class="card p-2 border border-dashed mb-2">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 ms-1 me-3">
+                                <img src="/static/images/pdf-file.png" alt="" class="avatar-xs">
+                            </div>
+                            <div class="flex-grow-1 overflow-hidden">
+                                <h5 class="fs-14 text-truncate mb-1">{{ attachment.file.name }}</h5>
+                                <p class="text-muted fs-13 mb-0">
+                                    {{ attachment.file.size|filesizeformat }}
+                                </p>
+                            </div>
 
-                        <div class="flex-shrink-0 ms-3">
-                            <div class="d-flex gap-2">
-                                <div>
-                                    <a href="#" class="text-muted px-1">
-                                        <i class="bx bxs-download"></i>
-                                    </a>
-                                </div>
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Share <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Delete <i class="bx bx-trash ms-2 text-muted"></i></a>
+                            <div class="flex-shrink-0 ms-3">
+                                <div class="d-flex gap-2">
+                                    <div>
+                                        {# TODO: download attachment file #}
+                                        <a href="#" class="text-muted px-1">
+                                            <i class="bx bxs-download"></i>
+                                        </a>
+                                    </div>
+                                    <div class="dropdown">
+                                        {# TODO: delete and share and bookmark #}
+                                        <a class="dropdown-toggle text-muted px-1" href="#" role="button"
+                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="bx bx-dots-horizontal-rounded"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                               href="#">Share <i class="bx bx-share-alt ms-2 text-muted"></i></a>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                               href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                               href="#">Delete <i class="bx bx-trash ms-2 text-muted"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="card p-2 border border-dashed mb-2">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 ms-1 me-3">
-                            <img src="/static/images/image-file.png" alt="" class="avatar-xs">
-                        </div>
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="fs-14 text-truncate mb-1">Image-1.jpg</h5>
-                            <p class="text-muted fs-13 mb-0">4.2 MB</p>
-                        </div>
-
-                        <div class="flex-shrink-0 ms-3">
-                            <div class="d-flex gap-2">
-                                <div>
-                                    <a href="#" class="text-muted px-1">
-                                        <i class="bx bxs-download"></i>
-                                    </a>
-                                </div>
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Share <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Delete <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card p-2 border border-dashed mb-2">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 ms-1 me-3">
-                            <img src="/static/images/image-file.png" alt="" class="avatar-xs">
-                        </div>
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="fs-14 text-truncate mb-1">Image-2.jpg</h5>
-                            <p class="text-muted fs-13 mb-0">3.1 MB</p>
-                        </div>
-
-                        <div class="flex-shrink-0 ms-3">
-                            <div class="d-flex gap-2">
-                                <div>
-                                    <a href="#" class="text-muted px-1">
-                                        <i class="bx bxs-download"></i>
-                                    </a>
-                                </div>
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Share <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Delete <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card p-2 border border-dashed mb-0">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 ms-1 me-3">
-                            <img src="/static/images/zip-file.png" alt="" class="avatar-xs">
-                        </div>
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="fs-14 text-truncate mb-1">Landing-A.zip</h5>
-                            <p class="text-muted fs-13 mb-0">6.7 MB</p>
-                        </div>
-
-                        <div class="flex-shrink-0 ms-3">
-                            <div class="d-flex gap-2">
-                                <div>
-                                    <a href="#" class="text-muted px-1">
-                                        <i class="bx bxs-download"></i>
-                                    </a>
-                                </div>
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle text-muted px-1" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-horizontal-rounded"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Share <i class="bx bx-share-alt ms-2 text-muted"></i></a>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Bookmark <i class="bx bx-bookmarks text-muted ms-2"></i></a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                            href="#">Delete <i class="bx bx-trash ms-2 text-muted"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
-
     </div>
     <!-- end user-profile-desc -->
 </div>

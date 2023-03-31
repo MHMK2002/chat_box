@@ -55,12 +55,13 @@
                                                         class="ri-eye-fill align-middle"></i></button>
                                             </div>
                                             <div class="float-end">
-                                                <a href="{% url 'forget-password' %}" class="text-muted">Forgot password?</a>
+                                                <a href="{% url 'forget-password' %}" class="text-muted">Forgot
+                                                    password?</a>
                                             </div>
                                         </div>
                                         <div class="form-check form-check-info fs-16">
                                             <input class="form-check-input" type="checkbox" id="remember-check"
-                                            value="lsRememberMe">
+                                                   value="lsRememberMe">
                                             <label class="form-check-label fs-14" for="remember-check">
                                                 Remember me
                                             </label>
@@ -68,6 +69,10 @@
 
                                         <div class="text-center mt-4">
                                             <button class="btn btn-primary w-100" type="submit">Log In</button>
+                                        </div>
+
+                                        <div class="text-center mt-4">
+                                             {{ errors }}
                                         </div>
                                     </form>
                                     <div class="mt-5 text-center text-muted">

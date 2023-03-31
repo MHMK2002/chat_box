@@ -40,3 +40,34 @@ function changeInformation(token) {
     }
 
 }
+
+function setStatus(status, token) {
+    const formData = new FormData();
+    formData.append('status', status);
+    formData.append('csrfmiddlewaretoken', token);
+    $.ajax(
+        {
+            url: '/profile/update/status',
+            type: 'POST',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+        }
+    ).done();
+
+    const status_color = document.getElementById('status_color');
+    status_color.classList.remove('text-success')
+    status_color.classList.remove('text-warning')
+    status_color.classList.remove('text-danger')
+
+    $('#status').html(status);
+    if (status === 'active') {
+        status_color.classList.add('text-success')
+    } else if (status === 'away') {
+        status_color.classList.add('text-warning')
+    } else {
+        status_color.classList.add('text-danger')
+    }
+}
+

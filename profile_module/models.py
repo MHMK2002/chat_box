@@ -18,6 +18,7 @@ class UserPrivacy(models.TextChoices):
 class UserMedia(models.Model):
     profile = models.ForeignKey('profile_module.UserProfile', on_delete=models.CASCADE, related_name='media')
     file = models.FileField(upload_to='user/media/', validators=[FileExtensionValidator(['jpg', 'png', 'mp4', 'mkv'])])
+    type = models.CharField(max_length=20, choices=[('image', 'Image'), ('video', 'Video')])
 
     def __str__(self):
         file_name = self.file.name.split('/')[-1]
@@ -29,6 +30,7 @@ class UserAttachment(models.Model):
     file = models.FileField(upload_to='user/attachments/',
                             validators=[
                                 FileExtensionValidator(['doc', 'docx', 'pdf', 'txt', 'xls', 'xlsx', 'zip', 'rar'])])
+    bookmark = models.BooleanField(default=False)
 
     def __str__(self):
         file_name = self.file.name.split('/')[-1]
@@ -57,3 +59,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} profile'
+
+    def get_attachments(self):
+        return self.attachments.all().order_by('-id')[:5]
+
+    def get_media(self):
+        return self.media.all().order_by('-id')[:5]

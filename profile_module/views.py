@@ -12,15 +12,18 @@ import base64
 
 
 # Create your views here.
-def set_status(request, status):
+def set_status(request):
     user: User = request.user
-    if user.is_authenticated:
-        status = status.lower()
-        if status == 'active' or status == 'away' or status == 'do not disturb':
-            user.profile.status = status
-            user.profile.save()
-            return render(request, 'home_module/home-page.html', {'user': user})
-    raise Http404('User is not authenticated')
+    if not user.is_authenticated:
+        raise Http404('User is not authenticated')
+
+    status = request.POST.get('status')
+    if status is None or (status != 'active' and status != 'away' and status != 'do not disturb'):
+        return HttpResponse(status=400, content='Status is not valid')
+
+    user.profile.status = status
+    user.profile.save()
+    return HttpResponse(status=200, content='Status updated successfully')
 
 
 class Profile(View):
@@ -97,6 +100,14 @@ class Chats(View):
             'private_chats': private_chats,
         }
         return render(request, 'profile_module/chats.html', context)
+
+    def post(self, request: HttpRequest):
+        pass
+
+
+class Bookmark(View):
+    def get(self, request: HttpRequest):
+        return render(request, 'profile_module/bookmark.html')
 
     def post(self, request: HttpRequest):
         pass

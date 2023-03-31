@@ -1,5 +1,5 @@
 from django.http import HttpRequest, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
 from account_module.models import User
@@ -12,8 +12,7 @@ class HomeView(View):
         if user.is_authenticated:
             return render(request, 'home_module/home-page.html', {'user': user})
         else:
-            # TODO: redirect to error page
-            pass
+            return redirect('login')
 
 
 def header_references(request):
