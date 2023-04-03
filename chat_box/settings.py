@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'profile_module',
     'conversation_module',
     'private_chat_module',
+    'chat_view_module',
 
     'sorl.thumbnail',
     'django_render_partial',

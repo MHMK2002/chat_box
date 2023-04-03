@@ -1,0 +1,9 @@
+{% load render_partial %}
+
+<div class="chat-conversation p-3 p-lg-4 " id="chat-conversation" data-simplebar>
+    <ul class="list-unstyled chat-conversation-list" id="users-conversation">
+        {% for message in conversation.messages %}
+            {% render_partial 'message_module.views.MessageView' user=user message=message %}
+        {% endfor %}
+    </ul>
+</div>

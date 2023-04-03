@@ -21,6 +21,11 @@ class PrivateChat(models.Model):
             if member != user:
                 return member.profile.avatar.url
 
+    def get_user(self, user: User):
+        for member in self.members.all():
+            if member != user:
+                return member
+
     def get_name(self, user: User):
         for member in self.members.all():
             if member != user:

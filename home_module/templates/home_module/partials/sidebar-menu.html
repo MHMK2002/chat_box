@@ -25,12 +25,12 @@
     <div class="flex-lg-column my-0 sidemenu-navigation">
         <ul class="nav nav-pills side-menu-nav" role="tablist">
             <li class="nav-item d-none d-lg-block">
-                <a class="nav-link" id="pills-user-tab" data-bs-toggle="pill" href="#pills-user" role="tab">
+                <a class="nav-link active" id="pills-user-tab" data-bs-toggle="pill" href="#pills-user" role="tab">
                     <i class="ri-user-3-line"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" id="pills-chat-tab" data-bs-toggle="pill" href="#pills-chat" role="tab">
+                <a class="nav-link" id="pills-chat-tab" data-bs-toggle="pill" href="#pills-chat" role="tab">
                     <i class="ri-discuss-line"></i>
                     {% if request.user.unread_messages > 0 %}
                         <span class="badge bg-danger fs-11 rounded-pill sidenav-item-badge">

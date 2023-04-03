@@ -1,0 +1,34 @@
+{% load render_partial %}
+<div class="chat-content d-lg-flex">
+    <!-- start chat conversation section -->
+    <div class="w-100 overflow-hidden position-relative">
+        <!-- conversation user -->
+        <div id="users-chat" class="position-relative">
+            {% block information %}
+
+            {% endblock %}
+            <!-- end chat user head -->
+
+            <!-- start chat conversation -->
+            {% block conversation %}
+
+            {% endblock %}
+
+            <div class="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show"
+                 id="copyClipBoard"
+                 role="alert">
+                Message copied
+            </div>
+            <!-- end chat conversation end -->
+        </div>
+
+        <!-- start chat input section -->
+        {# TODO: input section #}
+        <!-- end chat input section -->
+    </div>
+    <!-- end chat conversation section -->
+
+    <!-- start User profile detail sidebar -->
+    {# TODO: sidebar #}
+    <!-- end User profile detail sidebar -->
+</div>

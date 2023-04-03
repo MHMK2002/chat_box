@@ -107,12 +107,20 @@ class Chats(View):
         pass
 
 
-class Bookmark(View):
-    def get(self, request: HttpRequest):
-        return render(request, 'profile_module/bookmark.html')
+class Bookmark(TemplateView):
+    template_name = 'profile_module/bookmark.html'
 
-    def post(self, request: HttpRequest):
-        pass
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user: User = self.request.user
+        if not user.is_authenticated:
+            raise Http404('User is not authenticated')
+        context['user'] = user
+
+        bookmarks = user.profile.attachments.filter(bookmark=True).all()
+        context['bookmarks'] = bookmarks
+
+        return context
 
 
 def save_avatar(request):
